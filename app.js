@@ -8,7 +8,7 @@ import {
   ButtonStyleTypes,
 } from 'discord-interactions';
 import { VerifyDiscordRequest, getRandomEmoji, DiscordRequest } from './utils.js';
-import { getShuffledOptions, getResult } from './game.js';
+import {default as VC_TEMP_HANDLE } from './services/vctemp.js';
 
 // Create an express app
 const app = express();
@@ -18,7 +18,6 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json({ verify: VerifyDiscordRequest(process.env.PUBLIC_KEY) }));
 
 // Store for in-progress games. In production, you'd want to use a DB
-const activeGames = {};
 
 /**
  * Interactions endpoint URL where Discord will send HTTP requests
@@ -48,9 +47,20 @@ app.post('/interactions', async function (req, res) {
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         data: {
           // Fetches a random emoji to send from a helper function
-          content: 'hello world ' + getRandomEmoji(),
+          content: 'hello world ' + getRandomEmoji() + 'to you, from ' + req.body.guild_id,
         },
       });
+    } else if (name === "vctemp") {
+
+      let resultado = await VC_TEMP_HANDLE(req.body);
+
+      return res.send({
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        data: {
+          content: "Hola"
+        }
+      })
+
     }
   }
 });

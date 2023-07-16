@@ -40,6 +40,14 @@ const CHALLENGE_COMMAND = {
   type: 1,
 };
 
-const ALL_COMMANDS = [TEST_COMMAND, CHALLENGE_COMMAND];
+const VCTEMP_COMMAND = {
+
+  name: "vctemp",
+  description: "Crea un chat de voz temporal",
+  type: 1
+
+}
+
+const ALL_COMMANDS = [TEST_COMMAND, VCTEMP_COMMAND];
 
 InstallGlobalCommands(process.env.APP_ID, ALL_COMMANDS);
